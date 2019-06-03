@@ -8,9 +8,25 @@
     every time that nothing gets printed and return the counter.
     Don't forget to include newlines '\n' in your printf statements!
 */
-int fizzbuzz(int n)
-{
+int fizzbuzz(int n) {
+    int count = 0;
+    int *p;
+    p = &count;
 
+    for (int i = 0; i <= n; i++) {
+        if (i == 0) {
+            continue;
+        } else if (i%3 == 0) {
+            printf("Fizz\n");
+        } else if (i%5 == 0) {
+            printf("Buzz\n");
+        } else if (i%3 == 0 && i%5 == 0) {
+            printf("FizzBuzz\n");
+        } else {
+            *p = *p + 1;
+        }
+    }
+    return count;
 }
 
 #ifndef TESTING
@@ -22,4 +38,4 @@ int main(void)
 }
 #endif
 
-// initial push
+// gcc -Wall -Wextra -o foo foo.c
