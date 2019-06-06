@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "lib.h"
+#include <string.h>
 
 /*
     Duplicates the input string by dynamically allocating memory for 
@@ -10,9 +11,18 @@
     You may want to use the string_length function to figure out the
     length of the input string.
 */
-char *string_dup(char *src)
-{
+char *string_dup(char *src) {
+    char *dup = NULL;
+    int length = strlen(src);
+    char *s = malloc(length);
+    dup = s;
 
+    for ( int i = 0; i < length; i++) {
+        *s = src[i];
+
+        s++;
+    }
+    return dup;
 }
 
 /*
@@ -22,9 +32,18 @@ char *string_dup(char *src)
     performing the copying. `n` is the amount of data that should be copied
     from `src` to `dest`. 
 */
-void mem_copy(void *dest, const void *src, int n)
-{
+void mem_copy(void *dest, const void *src, int n) {
+    char *s = (char *)src;
+    char *d = (char *)dest;
+    
+    for (int i = 0; i < n; i++) {
+        *d = *s;
 
+        s++;
+        d++;
+        src++;
+        dest++;
+    }
 }
 
 /*
@@ -38,9 +57,21 @@ void mem_copy(void *dest, const void *src, int n)
     
     Do not use the `realloc` function from the standard libary.
 */
-void *resize_memory(void *ptr, int old_size, int new_size)
-{
+void *resize_memory(void *ptr, int old_size, int new_size) {
+    if (old_size >= new_size) {
+        return ptr;
+    }
 
+    void *resize = malloc(new_size);
+    
+    if (!resize) {
+        return NULL;
+    }
+
+    mem_copy(resize, ptr, old_size);
+    free(ptr);
+    
+    return resize;
 }
 
 #ifndef TESTING
@@ -85,3 +116,5 @@ int main(void)
     return 0;
 }
 #endif
+
+// gcc -Wall -Wextra -o malloc malloc.c
